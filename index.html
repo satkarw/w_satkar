@@ -284,7 +284,7 @@
     <!-- testimonial section -->
     <section class="section" id="testmonial">
         <div class="container text-center">
-            <p class="section-subtitle">What do my clients think about me ?</p>
+            <p class="section-subtitle">What Think Client About Me ?</p>
             <h6 class="section-title mb-6">Testmonial</h6>
 
             <!-- row -->
@@ -317,34 +317,25 @@
         </div> <!-- end of container -->
     </section> <!-- end of testimonial section -->
 
-    <!--  -->
-
-    <!-- contact section -->
-    <section class="section" id="contact">
-        <div class="container text-center">
-            <p class="section-subtitle">How can you communicate?</p>
-            <h6 class="section-title mb-5">Contact Me</h6>
-            <!-- contact form -->
-            <form id="contactForm" action="contact.php" method="post" class="contact-form col-md-10 col-lg-8 m-auto" onsubmit="return redirectToThankYouPage()">
-                <div class="form-row">
-                    <div class="form-group col-sm-6">
-                        <input type="text" size="50" class="form-control" placeholder="Your Name" required>
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <input type="email" class="form-control" placeholder="Enter Email" requried>
-                    </div>
-                    <div class="form-group col-sm-12">
-                        <textarea name="comment" id="comment" rows="6" class="form-control"
-                            placeholder="Write Something"></textarea>
-                    </div>
-                    <div class="form-group col-sm-12 mt-3">
-                        <input type="submit" value="Send Message" class="btn btn-outline-primary rounded">
-                    </div>
-                </div>
-            </form><!-- end of contact form -->
-        </div><!-- end of container -->
-    </section><!-- end of contact section -->
-
+    <!-- contacy form -->
+    <form id="contactForm" action="contact.php" method="post" class="contact-form col-md-10 col-lg-8 m-auto" onsubmit="return redirectToThankYouPage()">
+        <div class="form-row">
+            <div class="form-group col-sm-6">
+                <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+            </div>
+            <div class="form-group col-sm-6">
+                <input type="email" name="email" class="form-control" placeholder="Enter Email" required>
+            </div>
+            <div class="form-group col-sm-12">
+                <textarea name="message" id="comment" rows="6" class="form-control" placeholder="Write Something"></textarea>
+            </div>
+            <div class="form-group col-sm-12 mt-3">
+                <input type="submit" value="Send Message" class="btn btn-outline-primary rounded">
+            </div>
+        </div>
+    </form>
+    
+     
     <!-- footer -->
     <div class="container">
         <footer class="footer">
@@ -372,7 +363,7 @@
     <!-- Meyawo js -->
     <script src="assets/js/meyawo.js"></script>
 
-    <script>
+    <!-- <script>
         function redirectToThankYouPage() {
             // Assuming the form has an ID attribute, e.g., id="contactForm"
             var form = document.getElementById('contactForm');
@@ -385,7 +376,7 @@
             // Prevent the form from submitting (if you're not using AJAX)
             return false;
         }
-    </script>
+    </script> -->
     
 
 </body>
