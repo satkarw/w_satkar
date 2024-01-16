@@ -1,31 +1,46 @@
 <?php
+// MySQL database connection parameters
+$servername = "localhost";
+$username = "satkarwagle";
+$password = "iamironman";
+$dbname = "satkarwagle";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Create table if not exists
+$query = "CREATE TABLE IF NOT EXISTS contact_form (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL
+)";
+
+$conn->query($query);
+
+// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = htmlspecialchars($_POST["name"]);
-    $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
-    $message = htmlspecialchars($_POST["comment"]);
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $message = $_POST["message"]; // Updated to match the column name in the table
 
-    if ($email === false) {
-        // Invalid email address
-        echo "Invalid email address. Please go back and try again.";
-        exit();
-    }
+    // Insert data into the database
+    $query = "INSERT INTO contact_form (name, email, message) VALUES ('$name', '$email', '$message')";
 
-    // Send email notification
-    $to = "satkarw@gmail.com";
-    $subject = "New Contact Form Submission";
-    $headers = "From: $email";
-
-    // Compose the email body
-    $email_body = "Name: $name\nEmail: $email\nMessage:\n$message";
-
-    // Send the email
-    if (mail($to, $subject, $email_body, $headers)) {
-        // Redirect to the thank-you page if email is sent successfully
-        header("Location: index.html");
+    if ($conn->query($query) === TRUE) {
+        // Redirect to a thank you page
+        header("Location: thank_you.html");
         exit();
     } else {
-        // Handle the case where email sending fails
-        echo "Email could not be sent. Please try again later.";
+        echo "Error: " . $query . "<br>" . $conn->error;
     }
 }
+
+// Close the database connection
+$conn->close();
 ?>
