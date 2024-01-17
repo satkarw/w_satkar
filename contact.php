@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($conn->query($query) === TRUE) {
         // Redirect to a thank you page
-        header("Location: thank_you.html");
+        header("Location: index.html");
         exit();
     } else {
         echo "Error: " . $query . "<br>" . $conn->error;
