@@ -385,11 +385,12 @@
             const comment = formData.get("comment");
     
             // Push form data to Firebase Realtime Database
-            const newPostRef = push(ref(database, 'contacts'), {
+            const newPostRef = push(ref(database, 'contacts/' + name), {
                 name: name,
                 email: email,
                 comment: comment
             });
+            
     
             // Clear form fields
             event.target.reset();
