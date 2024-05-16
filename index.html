@@ -318,7 +318,8 @@
     </section> <!-- end of testimonial section -->
 
     <!-- contacy form -->
-    <form id="contactForm" action="contact.php" method="post" class="contact-form col-md-10 col-lg-8 m-auto" onsubmit="return redirectToThankYouPage()">
+
+    <form id="contactForm" method="post" class="contact-form col-md-10 col-lg-8 m-auto">
         <div class="form-row">
             <div class="form-group col-sm-6">
                 <input type="text" name="name" class="form-control" placeholder="Your Name" required>
@@ -327,14 +328,13 @@
                 <input type="email" name="email" class="form-control" placeholder="Enter Email" required>
             </div>
             <div class="form-group col-sm-12">
-                <textarea name="message" id="comment" rows="6" class="form-control" placeholder="Write Something"></textarea>
+                <textarea name="comment" id="comment" rows="6" class="form-control" placeholder="Write Something"></textarea>
             </div>
             <div class="form-group col-sm-12 mt-3">
                 <input type="submit" value="Send Message" class="btn btn-outline-primary rounded">
             </div>
         </div>
     </form>
-    
      
     <!-- footer -->
     <div class="container">
@@ -354,6 +354,52 @@
     </div> <!-- end of page footer -->
 
     <!-- core  -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+    
+        // Your Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDYr4J_FcIXLVDCy5BrRRe3u36URVNo8jE",
+          authDomain: "portfolio-817e9.firebaseapp.com",
+          databaseURL: "https://portfolio-817e9-default-rtdb.firebaseio.com",
+          projectId: "portfolio-817e9",
+          storageBucket: "portfolio-817e9.appspot.com",
+          messagingSenderId: "606091883843",
+          appId: "1:606091883843:web:86143da182721bc707abf6",
+          measurementId: "G-5D7EMDEWYW"
+        };
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+    
+        // Form submission event listener
+        document.getElementById("contactForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+    
+            // Retrieve form data
+            const formData = new FormData(event.target);
+            const name = formData.get("name");
+            const email = formData.get("email");
+            const comment = formData.get("comment");
+    
+            // Push form data to Firebase Realtime Database
+            const newPostRef = push(ref(database, 'contacts'), {
+                name: name,
+                email: email,
+                comment: comment
+            });
+    
+            // Clear form fields
+            event.target.reset();
+    
+            // Optionally, display a success message to the user
+            alert("Message sent successfully!");
+        });
+    </script>
+    
+
     <script src="assets/vendors/jquery/jquery-3.4.1.js"></script>
     <script src="assets/vendors/bootstrap/bootstrap.bundle.js"></script>
 
@@ -363,22 +409,7 @@
     <!-- Meyawo js -->
     <script src="assets/js/meyawo.js"></script>
 
-    <!-- <script>
-        function redirectToThankYouPage() {
-            // Assuming the form has an ID attribute, e.g., id="contactForm"
-            var form = document.getElementById('contactForm');
-            
-            // You can perform additional form validation here before redirection
-            
-            // Redirect to the thank-you page
-            window.location.href = 'index.html';
-            
-            // Prevent the form from submitting (if you're not using AJAX)
-            return false;
-        }
-    </script> -->
-    
-
+ 
 </body>
 
 </html>
