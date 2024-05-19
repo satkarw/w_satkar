@@ -335,7 +335,14 @@
             </div>
         </div>
     </form>
-     
+
+    <div class="container" style="padding: 20px;">
+        <h2>Comments</h2>
+        <div id="commentsContainer" class="cmntContainer"  style="padding: 20px;">
+            <!-- Comments will be dynamically inserted here -->
+        </div>
+    </div>
+    
     <!-- footer -->
     <div class="container">
         <footer class="footer">
@@ -356,18 +363,18 @@
     <!-- core  -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
     
         // Your Firebase configuration
         const firebaseConfig = {
-          apiKey: "AIzaSyDYr4J_FcIXLVDCy5BrRRe3u36URVNo8jE",
-          authDomain: "portfolio-817e9.firebaseapp.com",
-          databaseURL: "https://portfolio-817e9-default-rtdb.firebaseio.com",
-          projectId: "portfolio-817e9",
-          storageBucket: "portfolio-817e9.appspot.com",
-          messagingSenderId: "606091883843",
-          appId: "1:606091883843:web:86143da182721bc707abf6",
-          measurementId: "G-5D7EMDEWYW"
+            apiKey: "AIzaSyDYr4J_FcIXLVDCy5BrRRe3u36URVNo8jE",
+            authDomain: "portfolio-817e9.firebaseapp.com",
+            databaseURL: "https://portfolio-817e9-default-rtdb.firebaseio.com",
+            projectId: "portfolio-817e9",
+            storageBucket: "portfolio-817e9.appspot.com",
+            messagingSenderId: "606091883843",
+            appId: "1:606091883843:web:86143da182721bc707abf6",
+            measurementId: "G-5D7EMDEWYW"
         };
     
         // Initialize Firebase
@@ -385,18 +392,44 @@
             const comment = formData.get("comment");
     
             // Push form data to Firebase Realtime Database
-            const newPostRef = push(ref(database, 'contacts/' + name), {
+            push(ref(database, 'contacts'), {
                 name: name,
                 email: email,
                 comment: comment
             });
-            
     
             // Clear form fields
             event.target.reset();
     
             // Optionally, display a success message to the user
-            alert("Message sent successfully!");
+           
+        });
+    
+        // Function to display comments
+        function displayComments(comments) {
+            const commentsContainer = document.getElementById("commentsContainer");
+            commentsContainer.innerHTML = ""; // Clear any existing comments
+    
+            comments.forEach(comment => {
+                const commentElement = document.createElement("div");
+                commentElement.classList.add("comment");
+                commentElement.innerHTML = `
+                    <h4>${comment.name}</h4>
+                    <p style:"padding-bottom:20px">${comment.comment}</p>
+                   
+                `;
+                commentsContainer.appendChild(commentElement);
+            });
+        }
+    
+        // Listen for changes in the 'contacts' node
+        onValue(ref(database, 'contacts'), (snapshot) => {
+            const comments = [];
+            snapshot.forEach(childSnapshot => {
+                const childData = childSnapshot.val();
+                comments.push(childData);
+            });
+            displayComments(comments);
         });
     </script>
     
